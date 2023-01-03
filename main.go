@@ -103,3 +103,33 @@ func Show(w http.ResponseWriter, r *http.Request) {
 func New(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "New", nil)
 }
+
+func Edit(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	nId := r.URL.Query().Get("id")
+	selDB, err := db.Query("SELECT * FROM tools WHERE id=?", nId)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	tool := Tool{}
+
+	for selDB.Next() {
+		var id, rating int
+		var name, category, url, notes string
+		err := selDB.Scan(&id, &name, &category, &url, &rating, &notes)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		tool.Id = id
+		tool.Name = name
+		tool.Category = category
+		tool.URL = url
+		tool.Rating = rating
+		tool.Notes = notes
+	}
+
+	tmpl.ExecuteTemplate(w, "Edit", tool)
+	defer db.Close()
+}
