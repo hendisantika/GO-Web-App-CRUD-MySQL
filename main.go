@@ -3,9 +3,11 @@ package main
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
+	"text/template"
 )
 
 // Tool struct
@@ -36,7 +38,7 @@ func dbConn() (db *sql.DB) {
 
 var tmpl = template.Must(template.ParseGlob("templates/*"))
 
-//Index handler
+// Index handler
 func Index(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	selDB, err := db.Query("SELECT * FROM tools ORDER BY id DESC")
@@ -68,7 +70,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//Show handler
+// Show handler
 func Show(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	nId := r.URL.Query().Get("id")
