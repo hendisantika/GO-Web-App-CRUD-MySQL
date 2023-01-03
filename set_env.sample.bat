@@ -1,0 +1,18 @@
+@ECHO OFF
+
+:: variables
+
+:: default profile
+SET DATABASE_NAME=dbname
+SET DATABASE_USERNAME=username
+SET DATABASE_PASSWORD=password
+SET DATABASE_SERVER=localhost
+SET DATABASE_PORT=3306
+
+echo All set!
+
+
+:END
+ENDLOCAL
+ECHO ON
+@EXIT /B 0
