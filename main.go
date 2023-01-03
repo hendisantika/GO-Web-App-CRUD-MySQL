@@ -152,3 +152,23 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	http.Redirect(w, r, "/", 301)
 }
+
+func Update(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	if r.Method == "POST" {
+		name := r.FormValue("name")
+		category := r.FormValue("category")
+		url := r.FormValue("url")
+		rating := r.FormValue("rating")
+		notes := r.FormValue("notes")
+		id := r.FormValue("uid")
+		insForm, err := db.Prepare("UPDATE tools SET name=?, category=?, url=?, rating=?, notes=? WHERE id=?")
+		if err != nil {
+			panic(err.Error())
+		}
+		insForm.Exec(name, category, url, rating, notes, id)
+		log.Println("UPDATE Data: name " + name + " | category " + category + " | url " + url + " | rating " + rating + " | notes " + notes)
+	}
+	defer db.Close()
+	http.Redirect(w, r, "/", 301)
+}
