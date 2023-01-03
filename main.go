@@ -67,3 +67,35 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "Index", res)
 	defer db.Close()
 }
+
+//Show handler
+func Show(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	nId := r.URL.Query().Get("id")
+	selDB, err := db.Query("SELECT * FROM tools WHERE id=?", nId)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	tool := Tool{}
+
+	for selDB.Next() {
+		var id, rating int
+		var name, category, url, notes string
+		err := selDB.Scan(&id, &name, &category, &url, &rating, &notes)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		log.Println("Showing Row: Id " + string(id) + " | name " + name + " | category " + category + " | url " + url + " | rating " + string(rating) + " | notes " + notes)
+
+		tool.Id = id
+		tool.Name = name
+		tool.Category = category
+		tool.URL = url
+		tool.Rating = rating
+		tool.Notes = notes
+	}
+	tmpl.ExecuteTemplate(w, "Show", tool)
+	defer db.Close()
+}
