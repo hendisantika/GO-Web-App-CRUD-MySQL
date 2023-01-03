@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -31,4 +32,38 @@ func dbConn() (db *sql.DB) {
 		panic(err.Error())
 	}
 	return db
+}
+
+var tmpl = template.Must(template.ParseGlob("templates/*"))
+
+//Index handler
+func Index(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	selDB, err := db.Query("SELECT * FROM tools ORDER BY id DESC")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	tool := Tool{}
+	res := []Tool{}
+
+	for selDB.Next() {
+		var id, rating int
+		var name, category, url, notes string
+		err := selDB.Scan(&id, &name, &category, &url, &rating, &notes)
+		if err != nil {
+			panic(err.Error())
+		}
+		log.Println("Listing Row: Id " + string(id) + " | name " + name + " | category " + category + " | url " + url + " | rating " + string(rating) + " | notes " + notes)
+
+		tool.Id = id
+		tool.Name = name
+		tool.Category = category
+		tool.URL = url
+		tool.Rating = rating
+		tool.Notes = notes
+		res = append(res, tool)
+	}
+	tmpl.ExecuteTemplate(w, "Index", res)
+	defer db.Close()
 }
