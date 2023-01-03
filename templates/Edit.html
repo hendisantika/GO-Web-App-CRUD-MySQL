@@ -1,0 +1,32 @@
+{{ define "Edit" }}
+{{ template "Header" }}
+<div class="container col-5">
+    <h2>Edit Tool</h2>
+    <form action="/update" method="POST">
+        <input name="uid" type="hidden" value="{{ .Id }}"/>
+        <div class="form-group">
+            <label> Name </label>
+            <input class="form-control" name="name" type="text" value="{{ .Name }}"/>
+        </div>
+        <div class="form-group">
+            <label> Category </label>
+            <input class="form-control" name="category" type="text" value="{{ .Category }}"/>
+        </div>
+        <div class="form-group">
+            <label> URL </label>
+            <input class="form-control" name="url" type="text" value="{{ .URL }}"/>
+        </div>
+        <div class="form-group">
+            <label> Rating </label>
+            <input class="form-control" name="rating" type="text" value="{{ .Rating }}"/>
+        </div>
+        <div class="form-group">
+            <label> Notes </label>
+            <textarea class="form-control" cols="50" name="notes" rows="5">{{ .Notes }}</textarea>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Save tool"/>
+    </form>
+    <br/>
+</div>
+{{ template "Footer" }}
+{{ end }}
