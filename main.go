@@ -172,3 +172,16 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	http.Redirect(w, r, "/", 301)
 }
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	tool := r.URL.Query().Get("id")
+	delForm, err := db.Prepare("DELETE FROM tools WHERE id=?")
+	if err != nil {
+		panic(err.Error())
+	}
+	delForm.Exec(tool)
+	log.Println("DELETE " + tool)
+	defer db.Close()
+	http.Redirect(w, r, "/", 301)
+}
