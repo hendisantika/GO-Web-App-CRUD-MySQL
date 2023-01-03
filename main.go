@@ -185,3 +185,19 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	http.Redirect(w, r, "/", 301)
 }
+
+func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	log.Println("Server started on: http://localhost:8080")
+	http.HandleFunc("/", Index)
+	http.HandleFunc("/show", Show)
+	http.HandleFunc("/new", New)
+	http.HandleFunc("/edit", Edit)
+	http.HandleFunc("/insert", Insert)
+	http.HandleFunc("/update", Update)
+	http.HandleFunc("/delete", Delete)
+	http.ListenAndServe(":8080", nil)
+}
