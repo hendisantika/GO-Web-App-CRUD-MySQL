@@ -122,3 +122,21 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 * This project is in development
+
+## Image Screen shot
+
+Home Page
+
+![Home Page](img/home.png "Home Page")
+
+Add New Data
+
+![Add New Data](img/add.png "Add New Data")
+
+View Data
+
+![View Data](img/view.png "View Data")
+
+Edit Data
+
+![Edit Data](img/edit.png "Edit Data")
