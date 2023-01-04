@@ -2,7 +2,7 @@ CREATE
 DATABASE goweb CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 USE
-gowtdb;
+goweb;
 
 CREATE TABLE tools
 (

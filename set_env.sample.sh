@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #default profile
-export DATABASE_NAME="dbname"
-export DATABASE_USERNAME="username"
-export DATABASE_PASSWORD="password"
+export DATABASE_NAME="goweb"
+export DATABASE_USERNAME="root"
+export DATABASE_PASSWORD="root"
 export DATABASE_SERVER="localhost"
 export DATABASE_PORT="3306"
 
